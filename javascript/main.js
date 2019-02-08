@@ -9,6 +9,26 @@ var config = {
 };
 firebase.initializeApp(config);
 
+//iTunes API search
+
+//var url = 
+
+$.ajax({
+  url: "http://itunes.apple.com/search?term=jay z 99 problems&limit=10&media=music&musicVideo&limit=10",
+  dataType: "jsonp",
+  success: function( response ) {
+      console.log( response );
+
+  }
+});
+
+
+
+
+
+
+
+
 // Create a variable to reference the database.
 var database = firebase.database();
 
