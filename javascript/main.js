@@ -11,21 +11,35 @@ firebase.initializeApp(config);
 
 //iTunes API search
 
-//var url = 
 
-$.ajax({
-  url: "http://itunes.apple.com/search?term=jay z 99 problems&limit=10&media=music&musicVideo&limit=10",
-  dataType: "jsonp",
-  success: function( response ) {
-      console.log( response );
+//On click, add Music Info
+$("#search").on("click",function(event){
+    event.preventDefault();
+  $(".infoContent").empty();
+    console.log("click");
+  $.ajax({
+    url: "http://itunes.apple.com/search?term=jay z 99 problems&limit=10&media=music&musicVideo&limit=10",
+    dataType: "jsonp",
+    success: function( response ) {
+      console.log(response);
+      console.log(response.results[0].artistName);
+      console.log(response.results[0].trackName);
+      console.log(response.results[0].collectionName);
+      console.log(response.results[0].artworkUrl100);
 
-  }
+
+
+      for (i=0;i<=response.results.length;i++){
+        var artist =response.results[i].artistName;
+        var title =response.results[i].trackName;
+        var album =  response.results[i].collectionName;
+        var imageURL = response.results[i].artworkUrl100;
+        renderMusic(title, artist, album, "Additional 3", "Cool Lyrics", imageURL,"NOTHING",false,true,10,12,1);
+      };
+    }
+  });
 });
-
-
-
-
-
+      
 
 
 
@@ -56,21 +70,12 @@ $(".container-fluid").on("click",".modalBtn", function() {
 //Close Modal and stop video
 $(".container-fluid").on("click",".close", function() {
   var data = $(this).attr("data-btn");
-  // var video = $(this).attr("data-video");
+  var video = $(this).attr("data-video");
   $("#myModal"+data+" iframe").attr("src", "empty");
-  // var promise1=new Promise(function(){
-  //  $("#myModal"+data+" iframe").attr("src", video)  ;
-  // });
-  // promise1.then($("#myModal" + data).css("display", "none"));
+  $("#myModal"+data+" iframe").attr("src", video);
   $("#myModal" + data).css("display", "none");
 });
 
-// Reload Video
-$(".container-fluid").on("click",".videoBtn", function() {
-  var data = $(this).attr("data-btn");
-  var video = $(this).attr("data-video");
-  $("#myModal"+data+" iframe").attr("src", video);
-});
 
 //Add MusicDisplay
 function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
@@ -109,11 +114,12 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   if (deleteBtn){
     $(delBtnSpace).html('<i class="fa fa-times" aria-hidden="true"></i>').addClass("row delBtn text-center").attr("data-number",deleteID);
   }
+
   if (favoriteBtn){
     $(favBtnSpace).attr("data-album",album).attr("data-artist",artist).attr("data-title",title).attr("data-add",additional).attr("data-img",coverURL).attr("data-video",videoURL).attr("data-lyrics",lyrics);
   }
   $(lyricsBtnSpace).html('<i class="fa fa-music" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID);
-  $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+">&times;</span>" + "<p>"+lyrics+"</p>");
+  $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+" data-video="+videoURL+">&times;</span>" + "<p>"+lyrics+"</p>");
   $(modalLyrics).attr("ID","myModal"+lyricsID).addClass("modal "+lyricsID).append(contentLyrics);
 
   $(videoBtnSpace).html('<i class="fa fa-youtube" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
