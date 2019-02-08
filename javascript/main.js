@@ -9,6 +9,11 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// Make WaveSurfer Global Variable
+var wavesurfer = WaveSurfer.create({
+  container: '#waveform'
+});
+
 // Create a variable to reference the database.
 var database = firebase.database();
 
@@ -62,7 +67,7 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   var albumSpace = $("<p>");
   var titleSpace = $("<p>");
   var artistSpace = $("<p>");
-  var additionalSpace = $("<p>");
+  var additionalSpace = $("<div>");
   var favBtnSpace = $("<button>");
   var delBtnSpace = $("<button>");
   var lyricsBtnSpace = $("<button>");
@@ -81,7 +86,12 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   $(albumSpace).text(album).addClass("row");
   $(titleSpace).text(title).addClass("row");
   $(artistSpace).text(artist).addClass("row");
-  $(additionalSpace).text(additional).addClass("row");
+  
+  
+  $(additionalSpace).addClass("row");
+  $(additionalSpace).attr('id', 'waveform');
+  
+  
   $(infoDisplay).append(albumSpace).append(artistSpace).append(titleSpace).append(additionalSpace);
 
   $(btnDisplay).addClass("col-2 btnDisplay");
@@ -121,7 +131,7 @@ $(".add").on("click",function(event){
     event.preventDefault();
   $(".infoContent").empty();
       renderMusic("Title 3", "Artist 3", "Album 3", "Additional 3", "Cool Lyrics", "https://upload.wikimedia.org/wikipedia/en/thumb/5/54/Public_image_ltd_album_cover.jpg/220px-Public_image_ltd_album_cover.jpg","https://www.youtube.com/embed/5GcQtLDGXy8",false,true,10,12,1)
-});
+  });
 
 //Clicking on add favorite Button
 $(document).on("click",".favBtn",function(){
@@ -151,7 +161,7 @@ $(document).on("click",".favBtn",function(){
 //Show Favorites
 $(".favorites").on("click",displayFavorites);
 
-function displayFavorites() {
+function displayFavorites(event) {
   $(".infoContent").empty();
   event.preventDefault();
   for(i=0;i<favorites.title.length;i++){
@@ -206,3 +216,4 @@ database.ref().on("value", function(snapshot) {
   });
 });
 
+wavesurfer.load('../audio/test.mp3');
