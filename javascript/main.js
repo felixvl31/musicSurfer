@@ -9,46 +9,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//iTunes API search
-
-//On click, add Music Info
-$("#search").on("click",function(event){
-    event.preventDefault();
-  $(".infoContent").empty();
-    console.log("click");
-  $.ajax({
-    url: "http://itunes.apple.com/search?term=cut the cord&limit=10&media=music&musicVideo&limit=10",
-    dataType: "jsonp",
-    success: function( response ) {
-      console.log(response);
-      console.log(response.results[0].artistName);
-      console.log(response.results[0].trackName);
-      console.log(response.results[0].collectionName);
-      console.log(response.results[0].artworkUrl100);
-
-
-
-      for (i=0;i<=response.results.length-1;i++){
-        var artist =response.results[i].artistName;
-        var title =response.results[i].trackName;
-        var album =  response.results[i].collectionName;
-        var imageURL = response.results[i].artworkUrl100;
-        var trackID = response.results[i].trackId;
-        var videoID = response.results[i].trackTimeMillis;
-
-        if (response.results[i].kind == "music-video"){
-          var videoURL = response.results[i].previewUrl;
-          var album =  "";
-        }
-        else{
-          var videoURL = "";
-        }
-        renderMusic(title, artist, album, "Additional 3", imageURL,videoURL,false,true,videoID,trackID);
-      };
-    }
-  });
-});   
-
 // Create a variable to reference the database.
 var database = firebase.database();
 
@@ -65,6 +25,75 @@ if(favorites === null){
   video:[],
   }
 } 
+
+//iTunes API search
+
+//On click, add Music Info
+$("#search").on("click",function(event){
+    event.preventDefault();
+  $(".infoContent").empty();
+    console.log("click");
+
+  var term = $("#term").val().trim();
+
+  //Check if is not empty
+  if(term == ""){
+    $("#term").css("border", "black solid 2px");  //Black to be able to see it now, needs to be changed
+    $("#term").attr("placeholder","Type something..");
+    console.log("empty");
+    return
+  }
+  $("#term").val("");
+  $("#term").css("border", "none");
+  $("#term").attr("placeholder","Artist,Title,Album,etc.");
+
+  $.ajax({
+    url: "http://itunes.apple.com/search?term="+term+"&limit=10&media=music&musicVideo&limit=10",
+    dataType: "jsonp",
+    success: function( response ) {
+      console.log(response);
+      // console.log(response.results[0].artistName);
+      // console.log(response.results[0].trackName);
+      // console.log(response.results[0].collectionName);
+      // console.log(response.results[0].artworkUrl100);
+      console.log(response.results.length);
+
+    if (response.results.length == 0){
+      $("#term").attr("placeholder","No Results, Search something else...");
+      return
+    }
+
+      for (i=0;i<=response.results.length-1;i++){
+        var artist =response.results[i].artistName;
+        var title =response.results[i].trackName;
+        var album =  response.results[i].collectionName;
+        var imageURL = response.results[i].artworkUrl100;
+        var trackID = response.results[i].trackId;
+        var videoID = response.results[i].trackTimeMillis;
+
+        if (response.results[i].kind == "music-video"){
+          var videoURL = response.results[i].previewUrl;
+          var album =  "Video";
+        }
+        else{
+          var videoURL = "";
+        }
+        renderMusic(title, artist, album, "Additional 3", imageURL,videoURL,false,true,videoID,trackID);
+      };
+    }
+  });
+});   
+
+//Load Lyrics
+$(".container-fluid").on("click",".lyricsBtn", function() {
+  var artist = $(this).attr("data-artist");
+  var title = $(this).attr("data-title");
+  var data =  $(this).attr("data-btn");
+
+    //MusicXMatch API needs to go here
+
+  $("#lyricsSpace" + data).html(title+"<br>"+artist+"<br>");//Lyrics go here
+});
    
 // Open Modal
 $(".container-fluid").on("click",".modalBtn", function() {
@@ -80,7 +109,6 @@ $(".container-fluid").on("click",".close", function() {
   $("#myModal"+data+" iframe").attr("src", video);
   $("#myModal" + data).css("display", "none");
 });
-
 
 //Add MusicDisplay
 function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
@@ -125,7 +153,7 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
     $(favBtnSpace).attr("data-album",album).attr("data-artist",artist).attr("data-title",title).attr("data-add",additional).attr("data-img",coverURL).attr("data-video",videoURL);
   }
   $(lyricsBtnSpace).html('<i class="fa fa-music" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID).attr("data-artist",artist).attr("data-title",title);
-  $(lyricsSpace).attr("data",lyricsID);
+  $(lyricsSpace).attr("data",lyricsID).attr("id","lyricsSpace"+lyricsID);
   $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+" data-video="+videoURL+">&times;</span>").append(lyricsSpace);
   $(modalLyrics).attr("ID","myModal"+lyricsID).addClass("modal "+lyricsID).append(contentLyrics);
 
@@ -159,10 +187,14 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
 
 };
 
-
 //Clicking on add favorite Button
 $(document).on("click",".favBtn",function(){
-  // if(favorites.video.indexOf($(this).attr("data-video"))<0){
+
+  // var indexTitle = (favorites.title.indexOf($(this).attr("data-title")));
+  // var indexArtist= (favorites.artist.indexOf($(this).attr("data-artist")));
+  // var indexAlbum = (favorites.album.indexOf($(this).attr("data-album")));
+
+  // if(indexTitle<0){
     favorites.album.push($(this).attr("data-album"));
     favorites.artist.push($(this).attr("data-artist"));
     favorites.title.push($(this).attr("data-title"));
@@ -179,8 +211,7 @@ $(document).on("click",".favBtn",function(){
       image:$(this).attr("data-img"),
       video:$(this).attr("data-video"),
     });
-
-  // }
+  // };
 });
 
 //Show Favorites
