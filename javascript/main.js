@@ -14,6 +14,8 @@ var wavesurfer = WaveSurfer.create({
   container: '#waveform'
 });
 
+wavesurfer.load('test.mp3');
+
 // Create a variable to reference the database.
 var database = firebase.database();
 
@@ -215,5 +217,3 @@ database.ref().on("value", function(snapshot) {
     }
   });
 });
-
-wavesurfer.load('../audio/test.mp3');
