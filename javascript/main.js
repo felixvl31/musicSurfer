@@ -11,14 +11,13 @@ firebase.initializeApp(config);
 
 //iTunes API search
 
-
 //On click, add Music Info
 $("#search").on("click",function(event){
     event.preventDefault();
   $(".infoContent").empty();
     console.log("click");
   $.ajax({
-    url: "http://itunes.apple.com/search?term=jay z 99 problems&limit=10&media=music&musicVideo&limit=10",
+    url: "http://itunes.apple.com/search?term=cut the cord&limit=10&media=music&musicVideo&limit=10",
     dataType: "jsonp",
     success: function( response ) {
       console.log(response);
@@ -29,19 +28,26 @@ $("#search").on("click",function(event){
 
 
 
-      for (i=0;i<=response.results.length;i++){
+      for (i=0;i<=response.results.length-1;i++){
         var artist =response.results[i].artistName;
         var title =response.results[i].trackName;
         var album =  response.results[i].collectionName;
         var imageURL = response.results[i].artworkUrl100;
-        renderMusic(title, artist, album, "Additional 3", "Cool Lyrics", imageURL,"NOTHING",false,true,10,12,1);
+        var trackID = response.results[i].trackId;
+        var videoID = response.results[i].trackTimeMillis;
+
+        if (response.results[i].kind == "music-video"){
+          var videoURL = response.results[i].previewUrl;
+          var album =  "";
+        }
+        else{
+          var videoURL = "";
+        }
+        renderMusic(title, artist, album, "Additional 3", imageURL,videoURL,false,true,videoID,trackID);
       };
     }
   });
-});
-      
-
-
+});   
 
 // Create a variable to reference the database.
 var database = firebase.database();
@@ -57,7 +63,6 @@ if(favorites === null){
   additional:[],
   image:[],
   video:[],
-  lyrics:[]
   }
 } 
    
@@ -78,7 +83,7 @@ $(".container-fluid").on("click",".close", function() {
 
 
 //Add MusicDisplay
-function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
+function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
   var musicDisplay = $("<div>");
   var imageDisplay = $("<div>");
   var infoDisplay = $("<div>");
@@ -88,6 +93,7 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   var titleSpace = $("<p>");
   var artistSpace = $("<p>");
   var additionalSpace = $("<p>");
+  var lyricsSpace = $("<p>");
   var favBtnSpace = $("<button>");
   var delBtnSpace = $("<button>");
   var lyricsBtnSpace = $("<button>");
@@ -116,38 +122,43 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   }
 
   if (favoriteBtn){
-    $(favBtnSpace).attr("data-album",album).attr("data-artist",artist).attr("data-title",title).attr("data-add",additional).attr("data-img",coverURL).attr("data-video",videoURL).attr("data-lyrics",lyrics);
+    $(favBtnSpace).attr("data-album",album).attr("data-artist",artist).attr("data-title",title).attr("data-add",additional).attr("data-img",coverURL).attr("data-video",videoURL);
   }
-  $(lyricsBtnSpace).html('<i class="fa fa-music" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID);
-  $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+" data-video="+videoURL+">&times;</span>" + "<p>"+lyrics+"</p>");
+  $(lyricsBtnSpace).html('<i class="fa fa-music" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID).attr("data-artist",artist).attr("data-title",title);
+  $(lyricsSpace).attr("data",lyricsID);
+  $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+" data-video="+videoURL+">&times;</span>").append(lyricsSpace);
   $(modalLyrics).attr("ID","myModal"+lyricsID).addClass("modal "+lyricsID).append(contentLyrics);
 
-  $(videoBtnSpace).html('<i class="fa fa-youtube" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
-  $(contentVideo).addClass("modal-content").html("<span class='close'data-btn="+videoID+">&times;</span>" + '<iframe src='+videoURL+' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
-  $(modalVideo).attr("ID","myModal"+videoID).addClass("modal "+videoID).append(contentVideo);
-
+  if(videoURL != ""){
+    $(videoBtnSpace).html('<i class="fa fa-youtube" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
+    $(contentVideo).addClass("modal-content").html("<span class='close'data-btn="+videoID+" data-video="+videoURL+">&times;</span>" + '<iframe src='+videoURL+' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+    $(modalVideo).attr("ID","myModal"+videoID).addClass("modal "+videoID).append(contentVideo);
+  }
   if (deleteBtn){
-    $(btnDisplay).append(delBtnSpace).append(lyricsBtnSpace).append(videoBtnSpace);
+    $(btnDisplay).append(delBtnSpace).append(lyricsBtnSpace);
   }
   if (favoriteBtn){
-    $(btnDisplay).append(favBtnSpace).append(lyricsBtnSpace).append(videoBtnSpace);
+    $(btnDisplay).append(favBtnSpace).append(lyricsBtnSpace);
   }
   if(!favoriteBtn & !deleteBtn){
-    $(btnDisplay).append(lyricsBtnSpace).append(videoBtnSpace);
+    $(btnDisplay).append(lyricsBtnSpace);
+  }
+   if(videoURL !=""){
+    $(btnDisplay).append(videoBtnSpace);
   }
 
   $(musicDisplay).append(imageDisplay).append(infoDisplay).append(btnDisplay);
   
-  $(".infoContent").append(musicDisplay).append(modalLyrics).append(modalVideo);
+  if(videoURL !=""){
+    $(".infoContent").append(musicDisplay).append(modalLyrics).append(modalVideo);
+  }
+  else{
+    $(".infoContent").append(musicDisplay).append(modalLyrics);
+  }
+  
 
 };
 
-//On click, add Music Info
-$(".add").on("click",function(event){
-    event.preventDefault();
-  $(".infoContent").empty();
-      renderMusic("Title 3", "Artist 3", "Album 3", "Additional 3", "Cool Lyrics", "https://upload.wikimedia.org/wikipedia/en/thumb/5/54/Public_image_ltd_album_cover.jpg/220px-Public_image_ltd_album_cover.jpg","https://www.youtube.com/embed/5GcQtLDGXy8",false,true,10,12,1)
-});
 
 //Clicking on add favorite Button
 $(document).on("click",".favBtn",function(){
@@ -158,7 +169,6 @@ $(document).on("click",".favBtn",function(){
     favorites.additional.push($(this).attr("data-add"));
     favorites.image.push($(this).attr("data-img"));
     favorites.video.push($(this).attr("data-video"));
-    favorites.lyrics.push($(this).attr("data-lyrics"));
     localStorage.setItem("favorites",JSON.stringify(favorites));
 
     database.ref().push({
@@ -168,7 +178,6 @@ $(document).on("click",".favBtn",function(){
       additional:$(this).attr("data-add"),
       image:$(this).attr("data-img"),
       video:$(this).attr("data-video"),
-      lyrics:$(this).attr("data-lyrics")
     });
 
   // }
@@ -181,7 +190,7 @@ function displayFavorites() {
   $(".infoContent").empty();
   event.preventDefault();
   for(i=0;i<favorites.title.length;i++){
-    renderMusic(favorites.title[i], favorites.artist[i],favorites.album[i], favorites.additional[i], favorites.lyrics[i], favorites.image[i],favorites.video[i],true,false,100+i,200+i,i);
+    renderMusic(favorites.title[i], favorites.artist[i],favorites.album[i], favorites.additional[i], favorites.image[i],favorites.video[i],true,false,100+i,200+i,i);
   }
 };
 
@@ -193,7 +202,6 @@ $(document).on("click",".delBtn",function(){
   favorites.artist.splice(index,1);
   favorites.additional.splice(index,1);
   favorites.video.splice(index,1);
-  favorites.lyrics.splice(index,1);
   favorites.image.splice(index,1);
   localStorage.setItem("favorites",JSON.stringify(favorites));
   displayFavorites();
@@ -211,8 +219,7 @@ $(".popular").on("click",function(){
     var additional = child.val().additional;
     var image = child.val().image;
     var video = child.val().video;
-    var lyrics = child.val().lyrics;
-    renderMusic(title, artist,album,additional, lyrics, image,video,false,false,1000+i,2000+i);
+    renderMusic(title, artist,album,additional,image,video,false,false,1000+i,2000+i);
     i++;
    });
   });
