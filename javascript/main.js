@@ -1,3 +1,36 @@
+function getAllIndexes(arr, val) {
+    var indexes = [], i;
+    for(i = 0; i < arr.length; i++)
+        if (arr[i] === val)
+            indexes.push(i);
+    return indexes;
+}
+
+function intersect_arrays(a, b) {
+    var sorted_a = a.concat().sort();
+    var sorted_b = b.concat().sort();
+    var common = [];
+    var a_i = 0;
+    var b_i = 0;
+
+    while (a_i < a.length
+           && b_i < b.length)
+    {
+        if (sorted_a[a_i] === sorted_b[b_i]) {
+            common.push(sorted_a[a_i]);
+            a_i++;
+            b_i++;
+        }
+        else if(sorted_a[a_i] < sorted_b[b_i]) {
+            a_i++;
+        }
+        else {
+            b_i++;
+        }
+    }
+    return common;
+}
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAYhEfb1hnfEUi-pBKNqiRny22vFzUB8wQ",
@@ -144,7 +177,7 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
   $(infoDisplay).append(albumSpace).append(artistSpace).append(titleSpace).append(additionalSpace);
 
   $(btnDisplay).addClass("col-2 btnDisplay");
-  $(favBtnSpace).html('<i class="fa-hover-hidden fa fa-star-o" aria-hidden="true"></i><i class="fa-hover-show fa fa-star" aria-hidden="true"></i>').addClass("row favBtn text-center");
+  $(favBtnSpace).html('<i class="fa-hover-hidden fa fa-star-o text-center" aria-hidden="true"></i><i class="fa-hover-show fa fa-star text-center" aria-hidden="true"></i>').addClass("row favBtn text-center");
   if (deleteBtn){
     $(delBtnSpace).html('<i class="fa fa-times" aria-hidden="true"></i>').addClass("row delBtn text-center").attr("data-number",deleteID);
   }
@@ -152,13 +185,13 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
   if (favoriteBtn){
     $(favBtnSpace).attr("data-album",album).attr("data-artist",artist).attr("data-title",title).attr("data-add",additional).attr("data-img",coverURL).attr("data-video",videoURL);
   }
-  $(lyricsBtnSpace).html('<i class="fa fa-music" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID).attr("data-artist",artist).attr("data-title",title);
+  $(lyricsBtnSpace).html('<i class="fa fa-music text-center" aria-hidden="true"></i>').addClass("row lyricsBtn modalBtn text-center").attr("data-btn",lyricsID).attr("data-artist",artist).attr("data-title",title);
   $(lyricsSpace).attr("data",lyricsID).attr("id","lyricsSpace"+lyricsID);
   $(contentLyrics).addClass("modal-content").html("<span class='close'data-btn="+lyricsID+" data-video="+videoURL+">&times;</span>").append(lyricsSpace);
   $(modalLyrics).attr("ID","myModal"+lyricsID).addClass("modal "+lyricsID).append(contentLyrics);
 
   if(videoURL != ""){
-    $(videoBtnSpace).html('<i class="fa fa-youtube" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
+    $(videoBtnSpace).html('<i class="fa fa-play text-center" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
     $(contentVideo).addClass("modal-content").html("<span class='close'data-btn="+videoID+" data-video="+videoURL+">&times;</span>" + '<iframe src='+videoURL+' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     $(modalVideo).attr("ID","myModal"+videoID).addClass("modal "+videoID).append(contentVideo);
   }
@@ -189,12 +222,16 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
 
 //Clicking on add favorite Button
 $(document).on("click",".favBtn",function(){
+  var common = [];
+  var indexesTitle = getAllIndexes(favorites.title,$(this).attr("data-title"));
+  var indexesArtist = getAllIndexes(favorites.artist,$(this).attr("data-artist"));
+  var indexesAlbum = getAllIndexes(favorites.artist,$(this).attr("data-album"));
 
-  // var indexTitle = (favorites.title.indexOf($(this).attr("data-title")));
-  // var indexArtist= (favorites.artist.indexOf($(this).attr("data-artist")));
-  // var indexAlbum = (favorites.album.indexOf($(this).attr("data-album")));
-
-  // if(indexTitle<0){
+  common = intersect_arrays(indexesTitle, indexesArtist);
+  common = intersect_arrays(common, indexesAlbum);
+  
+  console.log(common.length);
+  if(common.length<1){
     favorites.album.push($(this).attr("data-album"));
     favorites.artist.push($(this).attr("data-artist"));
     favorites.title.push($(this).attr("data-title"));
@@ -211,18 +248,20 @@ $(document).on("click",".favBtn",function(){
       image:$(this).attr("data-img"),
       video:$(this).attr("data-video"),
     });
-  // };
+  };
 });
 
 //Show Favorites
 $(".favorites").on("click",displayFavorites);
-
-function displayFavorites() {
-  $(".infoContent").empty();
-  event.preventDefault();
-  for(i=0;i<favorites.title.length;i++){
-    renderMusic(favorites.title[i], favorites.artist[i],favorites.album[i], favorites.additional[i], favorites.image[i],favorites.video[i],true,false,100+i,200+i,i);
-  }
+  function displayFavorites() {
+    $(".searchBar").css("display","none");
+    $(".firebaseRecent").css("display","none");
+    $(".localFavorites").css("display","block");
+    $(".infoContent").empty();
+    event.preventDefault();
+    for(i=0;i<favorites.title.length;i++){
+      renderMusic(favorites.title[i], favorites.artist[i],favorites.album[i], favorites.additional[i], favorites.image[i],favorites.video[i],true,false,100+i,200+i,i);
+    }
 };
 
 //Delete Favorite
@@ -240,6 +279,9 @@ $(document).on("click",".delBtn",function(){
 
 //Popular Section //Recent Favorites
 $(".popular").on("click",function(){
+  $(".searchBar").css("display","none");
+  $(".firebaseRecent").css("display","block");
+  $(".localFavorites").css("display","none");
   $(".infoContent").empty();
   var i=0;
   database.ref().once("value", function(snapshot) {
@@ -270,3 +312,10 @@ database.ref().on("value", function(snapshot) {
   });
 });
 
+//Search Section
+$(".SearchSpace").on("click",function(){
+  $(".searchBar").css("display","block");
+  $(".firebaseRecent").css("display","none");
+  $(".localFavorites").css("display","none");
+  $(".infoContent").empty();
+});

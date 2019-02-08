@@ -14,28 +14,36 @@
   <div class="container-fluid text-center">
    <ul class="nav justify-content-end">
   <li class="nav-item">
-    <a class="nav-link SearchSpace">Search</a>
+    <a class="nav-link SearchSpace">Search<i class="fa fa-search" aria-hidden="true"></i></a>
   </li>
   <li class="nav-item">
     <a class="nav-link favorites">Favorites</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link popular">Popular</a>
+    <a class="nav-link popular">Recent Searches</a>
   </li>
 </ul>
 
 <h1>musicMania.........</h1>
     
+  <div class="searchBar">
     <div class="form-group row">
       <label for="name-input"></label>
-      <input class="form-control" id="term" type="text" placeholder="Artist,Title,Album,etc." onfocus="this.value=''">
+      <input class="form-control" id="term" type="text" placeholder="Artist,Title,Album,etc.">
     </div>
 
-    <button class="btn btn-default" id="search" type="submit">Search</button>
-
-    <div class="infoContent"></div>
+    <button class="btn btn-default" id="search" type="submit">Search<i class="fa fa-search" aria-hidden="true"></i></button>
   </div>
-
+  <div class="localFavorites">
+    <h1>Your Favorites</h1>
+  </div> 
+    <div class="firebaseRecent">
+    <h1>Last 25 Favorites from Everyone</h1>
+  </div> 
+  
+    <div class="infoContent"></div>
+    
+  </div>
 <!-- particles.js container -->
 <div id="particles-js"></div>
 

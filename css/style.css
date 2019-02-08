@@ -45,7 +45,13 @@ canvas{
   height:100% !important;
 }
 
+.searchBar{
+  display:block;
+}
 
+.localFavorites,.firebaseRecent{
+  display:none;
+}
 
 /* Music Display */
 .infoContent{
