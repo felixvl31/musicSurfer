@@ -76,14 +76,14 @@ $("#search").on("click", function(event) {
 
   //Check if is not empty
   if (term === "") {
-    $("#term").css("border", "black solid 2px"); //Black to be able to see it now, needs to be changed
+    $("#term").css("box-shadow", " 2px 2px 6px 4px rgba(255, 0, 0, 0.8)"); //Black to be able to see it now, needs to be changed
     $("#term").attr("placeholder", "Type something..");
     //console.log("empty search");
     return;
   }
   $("#term").val("");
-  $("#term").css("border", "none");
-  $("#term").attr("placeholder", "Artist,Title,Album,etc.");
+  $("#term").css("box-shadow", "none");
+  $("#term").attr("placeholder", "Artist,Title,Album");
 
   $.ajax({
     url:
@@ -357,15 +357,11 @@ function renderMusic(
 $(document).on("click", ".favBtn", function() {
   var common = [];
   var indexesTitle = getAllIndexes(favorites.title, $(this).attr("data-title"));
-  var indexesArtist = getAllIndexes(
-    favorites.artist,
-    $(this).attr("data-artist")
-  );
-  var indexesAlbum = getAllIndexes(
-    favorites.artist,
-    $(this).attr("data-album")
-  );
-
+  var indexesArtist = getAllIndexes(favorites.artist,$(this).attr("data-artist"));
+  var indexesAlbum = getAllIndexes(favorites.album,$(this).attr("data-album"));
+  console.log(indexesTitle);
+  console.log(indexesArtist);
+  console.log(indexesAlbum);
   common = intersect_arrays(indexesTitle, indexesArtist);
   common = intersect_arrays(common, indexesAlbum);
 
