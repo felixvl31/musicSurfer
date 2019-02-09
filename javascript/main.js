@@ -137,10 +137,15 @@ $(".container-fluid").on("click",".modalBtn", function() {
 //Close Modal and stop video
 $(".container-fluid").on("click",".close", function() {
   var data = $(this).attr("data-btn");
-  var video = $(this).attr("data-video");
   $("#myModal"+data+" iframe").attr("src", "empty");
-  $("#myModal"+data+" iframe").attr("src", video);
   $("#myModal" + data).css("display", "none");
+});
+
+//Reload video if it is open again
+$(".container-fluid").on("click",".videoBtn", function() {
+  var data = $(this).attr("data-btn");
+  var video = $(this).attr("data-video");
+  $("#myModal"+data+" iframe").attr("src", video);
 });
 
 //Add MusicDisplay
