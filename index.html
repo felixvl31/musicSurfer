@@ -12,31 +12,45 @@
 <body>
 
   <div class="container-fluid text-center">
-   <ul class="nav justify-content-end">
-  <li class="nav-item">
-    <a class="nav-link SearchSpace">Search<i class="fa fa-search" aria-hidden="true"></i></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link favorites">Favorites</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link popular">Recent Searches</a>
-  </li>
-</ul>
-
-<h1>musicMania.........</h1>
-    
-  <div class="searchBar">
-    <div class="form-group row">
-      <label for="name-input"></label>
-      <input class="form-control" id="term" type="text" placeholder="Artist,Title,Album,etc.">
-    </div>
-
-    <button class="btn btn-default" id="search" type="submit">Search<i class="fa fa-search" aria-hidden="true"></i></button>
+<div class="row">
+  <div class="col-6" id="headerTitle">
+      <h2 id="headerName">  &#127911 musicSurfer</h2>
+      
   </div>
-  <div class="localFavorites">
-    <h1>Your Favorites</h1>
+  <div class="col-6">
+      <ul class="nav justify-content-end" id="rightNav">
+          <li class="nav-item">
+            
+          </li>
+          <li class="nav-item">
+            <a class="nav-link SearchSpace">Search<i class="fa fa-search" aria-hidden="true"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link favorites">Favorites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link popular">Recent Searches</a>
+          </li>
+        </ul>
+  </div>
+</div>
+
+  
+
+
+    
+  <div class="searchBar" id="searchBar">
+    <form class="form-group row">
+      <label for="name-input"></label>
+      <input class="form-control" id="term" type="text" placeholder="Artist,Title,Album" autofocus="autofocus">
+      <input class="btn btn-default" id="search" type="submit" value='Search'>
+  </form>
+  </div>
+
+  <div class="localFavorites" id="favorites">
+    <h2>FAVORITES</h2>
   </div> 
+
     <div class="firebaseRecent">
     <h1>Last 25 Favorites from Everyone</h1>
   </div> 
