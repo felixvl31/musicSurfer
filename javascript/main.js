@@ -31,6 +31,11 @@ function intersect_arrays(a, b) {
     return common;
 }
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAYhEfb1hnfEUi-pBKNqiRny22vFzUB8wQ",
@@ -85,10 +90,6 @@ $("#search").on("click",function(event){
     dataType: "jsonp",
     success: function( response ) {
       console.log(response);
-      // console.log(response.results[0].artistName);
-      // console.log(response.results[0].trackName);
-      // console.log(response.results[0].collectionName);
-      // console.log(response.results[0].artworkUrl100);
       console.log(response.results.length);
 
     if (response.results.length == 0){
@@ -139,11 +140,11 @@ $(".container-fluid").on("click",".lyricsBtn", function() {
     }).then(function(response) {
     response = JSON.parse(response);
     lyrics = response.message.body.lyrics.lyrics_body;
-    lyrics = lyrics.replace(/(\r\n|\r|\n)/, "<br>")
-    lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******","");
+    lyrics = lyrics.replaceAll(/\n/, "<br>")
+    // lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******","");
     lyrics = lyrics.split("...")[0];
     console.log(lyrics);
-     $("#lyricsSpace" + data).html(title+"<br>"+artist+"<br>"+lyrics);//Lyrics go here
+     $("#lyricsSpace" + data).html(title+"<br>"+artist+"<br><br>"+lyrics);//Lyrics go here
     });
  
 });
@@ -217,7 +218,7 @@ function renderMusic(title, artist, album, additional, coverURL,videoURL,deleteB
 
   if(videoURL != ""){
     $(videoBtnSpace).html('<i class="fa fa-play text-center" aria-hidden="true"></i>').addClass("row videoBtn modalBtn text-center").attr("data-btn",videoID).attr("data-video",videoURL);
-    $(contentVideo).addClass("modal-content").html("<span class='close'data-btn="+videoID+" data-video="+videoURL+">&times;</span>" + '<iframe src='+videoURL+' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+    $(contentVideo).addClass("modal-content").html("<span class='close'data-btn="+videoID+" data-video="+videoURL+">&times;</span>" + '<iframe src='+"empty"+' frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
     $(modalVideo).attr("ID","myModal"+videoID).addClass("modal "+videoID).append(contentVideo);
   }
   if (deleteBtn){
