@@ -81,7 +81,7 @@ $("#search").on("click",function(event){
   $("#term").attr("placeholder","Artist,Title,Album,etc.");
 
   $.ajax({
-    url: "http://itunes.apple.com/search?term="+term+"&limit=10&media=music&musicVideo&limit=10",
+    url: "https://itunes.apple.com/search?term="+term+"&limit=10&media=music&musicVideo&limit=10",
     dataType: "jsonp",
     success: function( response ) {
       console.log(response);
@@ -122,10 +122,30 @@ $(".container-fluid").on("click",".lyricsBtn", function() {
   var artist = $(this).attr("data-artist");
   var title = $(this).attr("data-title");
   var data =  $(this).attr("data-btn");
+  var lyrics;
+  
 
     //MusicXMatch API needs to go here
-
-  $("#lyricsSpace" + data).html(title+"<br>"+artist+"<br>");//Lyrics go here
+    $.ajax({
+    url: "https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
+    type: "GET",
+    crossOrigin:true,
+    data: {
+        "format": "json",
+        "q_track": title,
+        "q_artist": artist,
+        "apikey": "19d5781349a8da24a1eb5bb2105979ae",},
+      crossDomain:true,
+    }).then(function(response) {
+    response = JSON.parse(response);
+    lyrics = response.message.body.lyrics.lyrics_body;
+    lyrics = lyrics.replace(/(\r\n|\r|\n)/, "<br>")
+    lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******","");
+    lyrics = lyrics.split("...")[0];
+    console.log(lyrics);
+     $("#lyricsSpace" + data).html(title+"<br>"+artist+"<br>"+lyrics);//Lyrics go here
+    });
+ 
 });
    
 // Open Modal
