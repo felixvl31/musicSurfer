@@ -87,7 +87,7 @@ $("#search").on("click", function(event) {
 
   $.ajax({
     url:
-      "https://itunes.apple.com/search?term=" +
+      "https://cors-anywhere.herokuapp.com/https://itunes.apple.com/search?term=" +
       term +
       "&limit=10&media=music&musicVideo&limit=10",
     dataType: "json",
