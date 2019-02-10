@@ -95,7 +95,7 @@ $("#search").on("click", function(event) {
       //console.log(response);
       //console.log(response.results.length);
 
-      if (response.results.length == 0) {
+      if (response.results.length === 0) {
         $("#term").attr("placeholder", "No Results, Search something else...");
         return;
       }
@@ -110,6 +110,7 @@ $("#search").on("click", function(event) {
         var trackID = response.results[i].trackId;
         var videoID = response.results[i].trackTimeMillis;
 
+        //if there is a return for a video url preview, saves it into the array
         if (response.results[i].kind == "music-video") {
           var videoURL = response.results[i].previewUrl;
           var album = "Video";
@@ -140,7 +141,7 @@ $(".container-fluid").on("click", ".lyricsBtn", function() {
   var data = $(this).attr("data-btn");
   var lyrics;
 
-  //MusicXMatch API needs to go here
+  //MusicXMatch API 
   $.ajax({
     url:
       "https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
@@ -159,7 +160,7 @@ $(".container-fluid").on("click", ".lyricsBtn", function() {
     lyrics = lyrics.replaceAll(/\n/, "<br>");
     // lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******","");
     lyrics = lyrics.split("...")[0];
-    console.log(lyrics);
+    //console.log(lyrics);
     $("#lyricsSpace" + data).html(
       title + "<br>" + artist + "<br><br>" + lyrics
     ); //Lyrics go here
