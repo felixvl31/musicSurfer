@@ -14,16 +14,52 @@
 <body>
 
   <div class="container-fluid text-center">
-    <h1 class="">Hello World</h1>
+  <div class="row">
+  <div class="col-6" id="headerTitle">
+      <h2 id="headerName">  &#127911 musicSurfer</h2>
+      
+  </div>
+  <div class="col-6">
+      <ul class="nav justify-content-end" id="rightNav">
+          <li class="nav-item">
+            
+          </li>
+          <li class="nav-item">
+            <a class="nav-link SearchSpace">Search<i class="fa fa-search" aria-hidden="true"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link favorites">Favorites</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link popular">Recent Favorites</a>
+          </li>
+        </ul>
+  </div>
+</div>
 
-    <button class="add">Search</button>
-    <button class="favorites">Favorites</button>
-    <button class="popular">Popular</button>
+  
 
-    <div class="infoContent"></div>
-    <div id="waveform"></div>
+
+    
+  <div class="searchBar" id="searchBar">
+    <form class="form-group row">
+      <label for="name-input"></label>
+      <input class="form-control" id="term" type="text" placeholder="Artist,Title,Album" autofocus="autofocus">
+      <input class="btn btn-default" id="search" type="submit" value='Search'>
+  </form>
   </div>
 
+  <div class="localFavorites" id="favorites">
+    <h2>Personal Favorites</h2>
+  </div> 
+
+    <div class="firebaseRecent">
+    <h3>Last 25 Favorites from Everyone</h3>
+  </div> 
+  
+    <div class="infoContent"></div>
+    
+  </div>
 <!-- particles.js container -->
 <div id="particles-js"></div>
 
