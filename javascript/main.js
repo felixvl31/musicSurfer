@@ -1,3 +1,10 @@
+// Make WaveSurfer Global Variable
+// var wavesurfer = WaveSurfer.create({
+//   container: '#waveform'
+// });
+
+// wavesurfer.load('test.mp3');
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyAYhEfb1hnfEUi-pBKNqiRny22vFzUB8wQ",
@@ -8,13 +15,6 @@ var config = {
   messagingSenderId: "53974921507"
 };
 firebase.initializeApp(config);
-
-// Make WaveSurfer Global Variable
-var wavesurfer = WaveSurfer.create({
-  container: '#waveform'
-});
-
-wavesurfer.load('test.mp3');
 
 // Create a variable to reference the database.
 var database = firebase.database();
@@ -125,6 +125,12 @@ function renderMusic(title, artist, album, additional, lyrics, coverURL,videoURL
   $(musicDisplay).append(imageDisplay).append(infoDisplay).append(btnDisplay);
   
   $(".infoContent").append(musicDisplay).append(modalLyrics).append(modalVideo);
+
+  var wavesurfer = WaveSurfer.create({
+    container: '#waveform'
+  });
+  
+  wavesurfer.load('test.mp3');
 
 };
 
