@@ -192,10 +192,14 @@ iframe {
 
 /* The Close Button */
 .close {
-  color: #aaa;
+  color:rgba(18, 60, 105);
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width:1px;
+  -webkit-text-stroke-color:rgba(18, 60, 105);
   float: right;
   font-size: 28px;
   font-weight: bold;
+
 }
 
 .close:hover,
@@ -216,7 +220,7 @@ iframe {
 }
 
 #searchBar {
-  width: 30%;
+  width: 40%;
   margin: 30px auto;
 }
 
@@ -293,6 +297,7 @@ iframe {
 @media only screen and (max-width: 580px) {
   img {
     width: 90px;
+    display:inline-block;
   }
 }
 
@@ -320,18 +325,24 @@ iframe {
     width: 100%;
   }
 p.row{
-  margin-left: 5px;
+  margin-left: 1rem;
 }
 #searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
   font-size: 16.5px;
   color: black;
 }
 #favorites, #recentSearchTab{
-  
-
-  margin-top: 40px;
- 
+  margin-top: 50px;
   font-size: 2.5rem !important;
 }
+#searchBar{
+  margin-top: 60px;
+}
+}
 
+@media only screen and (max-width: 430px){
+  img {
+    width: 95%;
+    height: auto;
+  }
 }
