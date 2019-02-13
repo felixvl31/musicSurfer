@@ -253,7 +253,7 @@ function renderMusic(
   $(btnDisplay).addClass("col-2 btnDisplay");
   $(favBtnSpace)
     .html(
-      '<i class="fa-hover-hidden fa fa-star-o text-center" aria-hidden="true"></i><i class="fa-hover-show fa fa-star text-center" aria-hidden="true"></i>'
+      '<i class="fa-hover-hidden fa fa-star-o text-center"  aria-hidden="true"></i><i class="fa-hover-show fa fa-star text-center" id="star" aria-hidden="true"></i>'
     )
     .addClass("row favBtn text-center");
   if (deleteBtn) {
@@ -262,6 +262,13 @@ function renderMusic(
       .addClass("row delBtn text-center")
       .attr("data-number", deleteID);
   }
+//MyChange
+  $(document).on("click",".favBtn", function(){
+    $(this).css("color", "pink");
+    $(this).css("border", "2px solid pink");
+  })
+
+  
 
   if (favoriteBtn) {
     $(favBtnSpace)
@@ -481,3 +488,5 @@ $(".SearchSpace").on("click", function() {
   $(".localFavorites").css("display", "none");
   $(".infoContent").empty();
 });
+
+

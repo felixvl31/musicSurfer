@@ -50,11 +50,16 @@ canvas {
 
 #search {
   margin: 10px auto;
+  background-color: rgb(243, 243, 243);
+}
+#search:hover{
+  
+  background-color: rgba(0,0, 0, .4);
+  color: #ffffff;
 }
 
 ::-webkit-input-placeholder {
   text-align: center;
-  color: red;
 }
 
 .localFavorites,
@@ -68,30 +73,34 @@ canvas {
   margin: 0px auto;
 }
 
-.contentMusic {
-  background-color: rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(
-    315deg,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(127, 140, 141, 0.2) d 74%
-  );
-  border-radius: 10px;
-  border: white 2px solid;
-  margin-bottom: 5px;
+.contentMusic{
+background-color: rgba(0, 0, 0, .2);
+background-image: linear-gradient(315deg, rgba(0, 0, 0, .2) 0%, rgba(127,140,141, .2)d 74%);
+border-radius:10px;
+border: white 2px solid;
+margin-bottom:5px;
 }
 
-.favBtn,
-.delBtn,
-.lyricsBtn,
-.videoBtn {
-  margin: 2px 0px;
-  height: 25px;
+.favBtn,.delBtn,.lyricsBtn,.videoBtn{
+  margin:2px 2px;
+  height:25px;
   width: 30px;
   border-radius: 10px;
   background-color: #dbcbd8;
   background-image: linear-gradient(316deg, #dbcbd8 0%, #2e4057 74%);
   color: white;
 }
+.favBtn:hover,.delBtn:hover,.lyricsBtn:hover,.videoBtn:hover{
+  height: 30px;
+  width:35px;
+  cursor: pointer;
+ 
+}
+
+.fa{
+  margin: 0 auto;
+}
+
 
 button.row {
   margin: 2px auto;
@@ -168,7 +177,12 @@ iframe {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-  display: block !important;
+
+  display:block !important;
+  border-radius: 25px;
+  background-image: linear-gradient(316deg, #e9e0e7 0%, #7c8a9e 74%);
+ font-family: 'Caveat', cursive;
+ color: #000000;
 }
 
 /* The Close Button */
@@ -192,10 +206,6 @@ iframe {
   padding: 0 0 0 0;
 }
 
-#headerName {
-  margin: 0;
-}
-
 #rightNav {
   margin-bottom: 0;
 }
@@ -205,9 +215,16 @@ iframe {
   margin: 30px auto;
 }
 
-#favorites {
+
+#favorites, #recentSearchTab{
+=======
+
   color: #123c69;
-  text-shadow: #000 2px 2px;
+  text-shadow: rgb(247, 244, 244) 2px 2px;
+  font-family: 'Lobster', cursive;
+  color: #242323;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .contentMusic:hover {
@@ -221,10 +238,42 @@ iframe {
   );
 }
 
-/*   switched  cursor to pointer on hover*/
-li.nav-item {
-  cursor: pointer;
+#navBar{
+  background-color: rgba(168, 161, 165, 0.4);
+  height: 60px;
+  padding: 10px;
+ 
 }
+
+#headerName{
+  color: #19191a;
+  font-family: 'Marck Script', cursive;
+  font-size: 35px;
+
+}
+
+#searchSpace, #favoritesNav, #recentSearch {
+  font-size: 15px;
+  cursor: pointer
+  
+}
+
+#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
+  font-size: 20px;
+}
+
+#term{
+  border-radius: 25px;
+}
+
+.tooltip{
+  visibility: hidden;
+}
+
+
+
+
+
 
 @media only screen and (max-width: 580px) {
   img {
