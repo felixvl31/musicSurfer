@@ -76,13 +76,15 @@ $("#search").on("click", function(event) {
 
   //Check if is not empty
   if (term === "") {
-    $("#term").css("box-shadow", " 2px 2px 6px 4px rgba(255, 0, 0, 0.8)"); //Black to be able to see it now, needs to be changed
+    $("#term").css("box-shadow", " 0 0 0 0.2rem rgba(255,0,0,.25)"); 
+    $("#term").css("border", "2px solid rgba(255,0,0,.5)"); 
     $("#term").attr("placeholder", "Type something..");
     //console.log("empty search");
     return;
   }
   $("#term").val("");
   $("#term").css("box-shadow", "none");
+  $("#term").css("border", "none");
   $("#term").attr("placeholder", "Artist,Title,Album");
 
   $.ajax({
@@ -117,18 +119,7 @@ $("#search").on("click", function(event) {
         } else {
           var videoURL = "";
         }
-        renderMusic(
-          title,
-          artist,
-          album,
-          "Additional 3",
-          imageURL,
-          videoURL,
-          false,
-          true,
-          videoID,
-          trackID
-        );
+        renderMusic(title,artist,album,"Additional 3",imageURL,videoURL,false,true,videoID,trackID);
       }
     }
   });
@@ -188,19 +179,7 @@ $(".container-fluid").on("click", ".videoBtn", function() {
 });
 
 //Factory function to display the results after search
-function renderMusic(
-  title,
-  artist,
-  album,
-  additional,
-  coverURL,
-  videoURL,
-  deleteBtn,
-  favoriteBtn,
-  videoID,
-  lyricsID,
-  deleteID
-) {
+function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
   var musicDisplay = $("<div>");
   var imageDisplay = $("<div>");
   var infoDisplay = $("<div>");
@@ -244,6 +223,7 @@ function renderMusic(
   $(additionalSpace)
     .text(additional)
     .addClass("row");
+
   $(infoDisplay)
     .append(albumSpace)
     .append(artistSpace)
@@ -262,13 +242,6 @@ function renderMusic(
       .addClass("row delBtn text-center")
       .attr("data-number", deleteID);
   }
-//MyChange
-  $(document).on("click",".favBtn", function(){
-    $(this).css("color", "pink");
-    $(this).css("border", "2px solid pink");
-  })
-
-  
 
   if (favoriteBtn) {
     $(favBtnSpace)
@@ -367,13 +340,10 @@ $(document).on("click", ".favBtn", function() {
   var indexesTitle = getAllIndexes(favorites.title, $(this).attr("data-title"));
   var indexesArtist = getAllIndexes(favorites.artist,$(this).attr("data-artist"));
   var indexesAlbum = getAllIndexes(favorites.album,$(this).attr("data-album"));
-  console.log(indexesTitle);
-  console.log(indexesArtist);
-  console.log(indexesAlbum);
+
   common = intersect_arrays(indexesTitle, indexesArtist);
   common = intersect_arrays(common, indexesAlbum);
 
-  console.log(common.length);
   if (common.length < 1) {
     favorites.album.push($(this).attr("data-album"));
     favorites.artist.push($(this).attr("data-artist"));
@@ -403,19 +373,8 @@ function displayFavorites() {
   $(".infoContent").empty();
   event.preventDefault();
   for (i = 0; i < favorites.title.length; i++) {
-    renderMusic(
-      favorites.title[i],
-      favorites.artist[i],
-      favorites.album[i],
-      favorites.additional[i],
-      favorites.image[i],
-      favorites.video[i],
-      true,
-      false,
-      100 + i,
-      200 + i,
-      i
-    );
+    renderMusic(favorites.title[i],favorites.artist[i],favorites.album[i],favorites.additional[i],
+    favorites.image[i],favorites.video[i],true,false,100 + i,200 + i,i);
   }
 }
 
@@ -447,18 +406,7 @@ $(".popular").on("click", function() {
       var additional = child.val().additional;
       var image = child.val().image;
       var video = child.val().video;
-      renderMusic(
-        title,
-        artist,
-        album,
-        additional,
-        image,
-        video,
-        false,
-        false,
-        1000 + i,
-        2000 + i
-      );
+      renderMusic(title,artist,album,additional,image, video,false,false,1000 + i,2000 + i);
       i++;
     });
   });
@@ -472,10 +420,7 @@ database.ref().on("value", function(snapshot) {
     if (arrayKey.length >= 25) {
       var difference = arrayKey.length - 25;
       for (i = 0; i <= difference - 1; i++) {
-        database
-          .ref()
-          .child(arrayKey[i])
-          .remove();
+        database.ref().child(arrayKey[i]).remove();
       }
     }
   });
@@ -489,4 +434,8 @@ $(".SearchSpace").on("click", function() {
   $(".infoContent").empty();
 });
 
-
+//Change color to Favorites clicked
+  $(document).on("click",".favBtn", function(){
+    $(this).css("color", "pink");
+    $(this).css("border", "2px solid pink");
+  })
