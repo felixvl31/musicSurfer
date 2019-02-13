@@ -51,13 +51,20 @@ canvas{
 
 #search{
   margin: 10px auto;
+  background-color: rgb(243, 243, 243);
+  
+
+}
+#search:hover{
+  
+  background-color: rgba(0,0, 0, .4);
+  color: #ffffff;
 
 }
 
 
 ::-webkit-input-placeholder {
   text-align: center;
-  color: red;
 }
 
 .localFavorites,.firebaseRecent{
@@ -79,7 +86,7 @@ margin-bottom:5px;
 }
 
 .favBtn,.delBtn,.lyricsBtn,.videoBtn{
-  margin:2px 0px;
+  margin:2px 2px;
   height:25px;
   width: 30px;
   border-radius:10px;
@@ -87,6 +94,17 @@ margin-bottom:5px;
   background-image: linear-gradient(316deg, #dbcbd8 0%, #2e4057 74%);
   color:white;
 }
+.favBtn:hover,.delBtn:hover,.lyricsBtn:hover,.videoBtn:hover{
+  height: 30px;
+  width:35px;
+  cursor: pointer;
+ 
+}
+
+.fa{
+  margin: 0 auto;
+}
+
 
 button.row{
   margin:2px auto;
@@ -165,6 +183,10 @@ iframe {
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
   display:block !important;
+  border-radius: 25px;
+  background-image: linear-gradient(316deg, #e9e0e7 0%, #7c8a9e 74%);
+ font-family: 'Caveat', cursive;
+ color: #000000;
 }
 
 /* The Close Button */
@@ -189,12 +211,10 @@ iframe {
   text-align: left;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
-
+ 
 }
 
-#headerName{
-  margin: 0;
-}
+
 
 #rightNav{
   margin-bottom: 0;
@@ -205,9 +225,13 @@ iframe {
  margin: 30px auto;
 }
 
-#favorites{
+#favorites, #recentSearchTab{
   color: #123c69;
-  text-shadow: #000 2px 2px;
+  text-shadow: rgb(247, 244, 244) 2px 2px;
+  font-family: 'Lobster', cursive;
+  color: #242323;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .contentMusic:hover{
@@ -216,6 +240,41 @@ iframe {
   background-color: rgba(0, 0, 0, .4);
 background-image: linear-gradient(315deg, rgba(0, 0, 0, .4) 0%, rgba(127,140,141, .4)d 74%);
 }
+
+#navBar{
+  background-color: rgba(168, 161, 165, 0.4);
+  height: 60px;
+  padding: 10px;
+ 
+}
+
+#headerName{
+  color: #19191a;
+  font-family: 'Marck Script', cursive;
+  font-size: 35px;
+
+}
+
+#searchSpace, #favoritesNav, #recentSearch {
+  font-size: 15px;
+  cursor: pointer
+  
+}
+
+#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
+  font-size: 20px;
+}
+
+#term{
+  border-radius: 25px;
+}
+
+.tooltip{
+  visibility: hidden;
+}
+
+
+
 
 
 
