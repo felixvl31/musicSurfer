@@ -50,12 +50,17 @@ canvas {
 
 #search {
   margin: 10px auto;
-  background-color: rgb(243, 243, 243);
+  background-color: rgba(243, 243, 243, .1);
+  border: 2px black solid;
+  border-radius: 25px;
+  font-weight: bold;
 }
 #search:hover{
   
   background-color: rgba(0,0, 0, .4);
   color: #ffffff;
+  border: 2px solid white;
+  
 }
 
 ::-webkit-input-placeholder {
@@ -86,15 +91,14 @@ margin-bottom:5px;
   height:25px;
   width: 30px;
   border-radius: 10px;
-  background-color: #dbcbd8;
-  background-image: linear-gradient(316deg, #dbcbd8 0%, #2e4057 74%);
+  background-color: rgba(0, 0, 0, 0.4);
   color: white;
 }
 .favBtn:hover,.delBtn:hover,.lyricsBtn:hover,.videoBtn:hover{
   height: 30px;
   width:35px;
   cursor: pointer;
- 
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .fa{
@@ -128,6 +132,7 @@ img {
 }
 p.row {
   margin: 3px;
+  text-align: left;
 }
 
 iframe {
@@ -181,8 +186,8 @@ iframe {
   display:block !important;
   border-radius: 25px;
   background-image: linear-gradient(316deg, #e9e0e7 0%, #7c8a9e 74%);
- font-family: 'Caveat', cursive;
- color: #000000;
+ font-family: 'Fira Sans', sans-serif;
+ color:#ffffff;
 }
 
 /* The Close Button */
@@ -217,14 +222,17 @@ iframe {
 
 
 #favorites, #recentSearchTab{
-=======
-
-  color: #123c69;
-  text-shadow: rgb(247, 244, 244) 2px 2px;
-  font-family: 'Lobster', cursive;
-  color: #242323;
+  
+  font-family: 'Fira Sans', sans-serif;
+  
+  color:rgba(18, 60, 105);
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width:1px;
+  -webkit-text-stroke-color:rgba(18, 60, 105);
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  font-size: 4rem !important;
 }
 
 .contentMusic:hover {
@@ -239,7 +247,7 @@ iframe {
 }
 
 #navBar{
-  background-color: rgba(168, 161, 165, 0.4);
+  
   height: 60px;
   padding: 10px;
  
@@ -253,13 +261,17 @@ iframe {
 }
 
 #searchSpace, #favoritesNav, #recentSearch {
-  font-size: 15px;
-  cursor: pointer
+  font-size: 16.5px;
+  cursor: pointer;
+  color: #3f3e3e;
+  font-weight: bold;
+  
   
 }
 
 #searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
   font-size: 20px;
+  color: black;
 }
 
 #term{
@@ -270,7 +282,10 @@ iframe {
   visibility: hidden;
 }
 
-
+.form-control:focus{
+  border: 2px solid rgb(44, 66, 90);
+  box-shadow: 0 0 0 0.2rem rgba(18, 60, 105, 0.2);
+}
 
 
 
@@ -299,4 +314,24 @@ iframe {
   iframe {
     height: 25vh;
   }
+}
+@media only screen and (max-width: 500px){
+  #navBar {
+    width: 100%;
+  }
+p.row{
+  margin-left: 5px;
+}
+#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
+  font-size: 16.5px;
+  color: black;
+}
+#favorites, #recentSearchTab{
+  
+
+  margin-top: 40px;
+ 
+  font-size: 2.5rem !important;
+}
+
 }
