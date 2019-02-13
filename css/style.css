@@ -10,44 +10,58 @@ body {
   height: 100%;
   background: #111;
 }
-
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 body {
   font: normal 75% Arial, Helvetica, sans-serif;
 }
-
 h1 {
   font-size: 100px;
 }
-
 .container-fluid {
   z-index: 1;
   position: absolute;
 }
-
-/* .background {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  background-color: white;
-  pointer-events: none
-} */
-
 canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
 }
 
+/* NavBar */
+#headerTitle {
+  text-align: left;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+#rightNav {
+  margin-bottom: 0;
+}
+#navBar{
+  height: 60px;
+  padding: 10px;
+}
+#headerName{
+  color: #19191a;
+  font-family: 'Marck Script', cursive;
+  font-size: 35px;
+}
+#searchSpace, #favoritesNav, #recentSearch {
+  font-size: 16.5px;
+  cursor: pointer;
+  color: #3f3e3e;
+  font-weight: bold;
+}
+#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
+  font-size: 20px;
+  color: black;
+}
+
+/* Search, Favorites and Trending Titles*/
 .searchBar {
   display: block;
 }
-
 #search {
   margin: 10px auto;
   background-color: rgba(243, 243, 243, .1);
@@ -56,20 +70,41 @@ canvas {
   font-weight: bold;
 }
 #search:hover{
-  
   background-color: rgba(0,0, 0, .4);
   color: #ffffff;
   border: 2px solid white;
-  
 }
-
+#searchBar {
+  width: 40%;
+  margin: 30px auto;
+}
 ::-webkit-input-placeholder {
   text-align: center;
 }
-
 .localFavorites,
 .firebaseRecent {
   display: none;
+}
+#favorites, #recentSearchTab{
+  font-family: 'Fira Sans', sans-serif;
+  color:rgba(18, 60, 105);
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width:2px;
+  -webkit-text-stroke-color:rgba(18, 60, 105);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  font-size: 4rem !important;
+}
+#term{
+  border-radius: 25px;
+}
+.tooltip{
+  visibility: hidden;
+}
+.form-control:focus{
+  border: 2px solid rgb(44, 66, 90);
+  box-shadow: 0 0 0 0.2rem rgba(18, 60, 105, 0.2);
 }
 
 /* Music Display */
@@ -77,15 +112,23 @@ canvas {
   width: 60%;
   margin: 0px auto;
 }
-
 .contentMusic{
-background-color: rgba(0, 0, 0, .2);
-background-image: linear-gradient(315deg, rgba(0, 0, 0, .2) 0%, rgba(127,140,141, .2)d 74%);
-border-radius:10px;
-border: white 2px solid;
-margin-bottom:5px;
+  background-color: rgba(0, 0, 0, .2);
+  background-image: linear-gradient(315deg, rgba(0, 0, 0, .2) 0%, rgba(127,140,141, .2)d 74%);
+  border-radius:10px;
+  border: white 2px solid;
+  margin-bottom:5px;
 }
-
+.contentMusic:hover {
+  border-radius: 20px;
+  border: #123c69 2px solid;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-image: linear-gradient(
+    315deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(127, 140, 141, 0.4) d 74%
+  );
+}
 .favBtn,.delBtn,.lyricsBtn,.videoBtn{
   margin:2px 2px;
   height:25px;
@@ -100,27 +143,21 @@ margin-bottom:5px;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .fa{
   margin: 0 auto;
 }
-
-
 button.row {
   margin: 2px auto;
 }
-
 .btnDisplay {
   padding: 0px 10px 0px 20px !important;
 }
-
 img {
   border-radius: 10px;
   margin: 5px 0px;
 }
 .imageDisplay {
   padding: 0px !important;
-  /* border-right:white 2px solid;  */
 }
 .infoDisplay {
   font-size: 16px;
@@ -128,13 +165,11 @@ img {
   font-weight: 800;
   text-shadow: #000 2px 2px;
   padding-left: 0px !important;
-  /* border-right:white 2px solid;  */
 }
 p.row {
   margin: 3px;
   text-align: left;
 }
-
 iframe {
   width: 50vw;
   height: 50vh;
@@ -182,12 +217,11 @@ iframe {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-
   display:block !important;
   border-radius: 25px;
   background-image: linear-gradient(316deg, #e9e0e7 0%, #7c8a9e 74%);
- font-family: 'Fira Sans', sans-serif;
- color:#ffffff;
+  font-family: 'Fira Sans', sans-serif;
+  color:#ffffff;
 }
 
 /* The Close Button */
@@ -199,99 +233,13 @@ iframe {
   float: right;
   font-size: 28px;
   font-weight: bold;
-
 }
-
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
-
-#headerTitle {
-  text-align: left;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-}
-
-#rightNav {
-  margin-bottom: 0;
-}
-
-#searchBar {
-  width: 40%;
-  margin: 30px auto;
-}
-
-
-#favorites, #recentSearchTab{
-  
-  font-family: 'Fira Sans', sans-serif;
-  
-  color:rgba(18, 60, 105);
-  -webkit-text-fill-color: white;
-  -webkit-text-stroke-width:1px;
-  -webkit-text-stroke-color:rgba(18, 60, 105);
-  margin-top: 20px;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
-  font-size: 4rem !important;
-}
-
-.contentMusic:hover {
-  border-radius: 20px;
-  border: #123c69 2px solid;
-  background-color: rgba(0, 0, 0, 0.4);
-  background-image: linear-gradient(
-    315deg,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(127, 140, 141, 0.4) d 74%
-  );
-}
-
-#navBar{
-  
-  height: 60px;
-  padding: 10px;
- 
-}
-
-#headerName{
-  color: #19191a;
-  font-family: 'Marck Script', cursive;
-  font-size: 35px;
-
-}
-
-#searchSpace, #favoritesNav, #recentSearch {
-  font-size: 16.5px;
-  cursor: pointer;
-  color: #3f3e3e;
-  font-weight: bold;
-  
-  
-}
-
-#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
-  font-size: 20px;
-  color: black;
-}
-
-#term{
-  border-radius: 25px;
-}
-
-.tooltip{
-  visibility: hidden;
-}
-
-.form-control:focus{
-  border: 2px solid rgb(44, 66, 90);
-  box-shadow: 0 0 0 0.2rem rgba(18, 60, 105, 0.2);
-}
-
-
 
 
 @media only screen and (max-width: 580px) {
@@ -324,25 +272,40 @@ iframe {
   #navBar {
     width: 100%;
   }
-p.row{
-  margin-left: 1rem;
+  p.row{
+    margin-left: 1rem;
+  }
+  #searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
+    font-size: 16.5px;
+    color: black;
+  }
+  #favorites, #recentSearchTab{
+    margin-top: 50px;
+    font-size: 2.5rem !important;
+  }
+  #searchBar{
+    margin-top: 60px;
+  }
+  #searchSpace,#favoritesNav,#recentSearch {
+    text-align:right;
+    padding-right:0px;
+    padding-left:50px;
+  }
+  .navBarButtons{
+    padding-right:0px;
+  }
+  #navBar.row{
+    padding-right:0px !important;
+    padding-left:0px !important;
+    margin:0px auto;
+  }
 }
-#searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
-  font-size: 16.5px;
-  color: black;
-}
-#favorites, #recentSearchTab{
-  margin-top: 50px;
-  font-size: 2.5rem !important;
-}
-#searchBar{
-  margin-top: 60px;
-}
-}
-
 @media only screen and (max-width: 430px){
   img {
     width: 95%;
     height: auto;
+  }
+  .infoDisplay {
+    font-size: 12px;
   }
 }
