@@ -76,18 +76,18 @@ $("#search").on("click", function(event) {
 
   //Check if is not empty
   if (term === "") {
-    $("#term").css("border", "black solid 2px"); //Black to be able to see it now, needs to be changed
+    $("#term").css("box-shadow", " 2px 2px 6px 4px rgba(255, 0, 0, 0.8)"); //Black to be able to see it now, needs to be changed
     $("#term").attr("placeholder", "Type something..");
     //console.log("empty search");
     return;
   }
   $("#term").val("");
-  $("#term").css("border", "none");
-  $("#term").attr("placeholder", "Artist,Title,Album,etc.");
+  $("#term").css("box-shadow", "none");
+  $("#term").attr("placeholder", "Artist,Title,Album");
 
   $.ajax({
     url:
-      "https://itunes.apple.com/search?term=" +
+      "https://cors-anywhere.herokuapp.com/https://itunes.apple.com/search?term=" +
       term +
       "&limit=10&media=music&musicVideo&limit=10",
     dataType: "json",
@@ -95,7 +95,7 @@ $("#search").on("click", function(event) {
       //console.log(response);
       //console.log(response.results.length);
 
-      if (response.results.length == 0) {
+      if (response.results.length === 0) {
         $("#term").attr("placeholder", "No Results, Search something else...");
         return;
       }
@@ -110,6 +110,7 @@ $("#search").on("click", function(event) {
         var trackID = response.results[i].trackId;
         var videoID = response.results[i].trackTimeMillis;
 
+        //if there is a return for a video url preview, saves it into the array
         if (response.results[i].kind == "music-video") {
           var videoURL = response.results[i].previewUrl;
           var album = "Video";
@@ -140,7 +141,7 @@ $(".container-fluid").on("click", ".lyricsBtn", function() {
   var data = $(this).attr("data-btn");
   var lyrics;
 
-  //MusicXMatch API needs to go here
+  //MusicXMatch API 
   $.ajax({
     url:
       "https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/matcher.lyrics.get",
@@ -159,7 +160,7 @@ $(".container-fluid").on("click", ".lyricsBtn", function() {
     lyrics = lyrics.replaceAll(/\n/, "<br>");
     // lyrics = lyrics.replace("******* This Lyrics is NOT for Commercial use *******","");
     lyrics = lyrics.split("...")[0];
-    console.log(lyrics);
+    //console.log(lyrics);
     $("#lyricsSpace" + data).html(
       title + "<br>" + artist + "<br><br>" + lyrics
     ); //Lyrics go here
@@ -364,15 +365,11 @@ function renderMusic(
 $(document).on("click", ".favBtn", function() {
   var common = [];
   var indexesTitle = getAllIndexes(favorites.title, $(this).attr("data-title"));
-  var indexesArtist = getAllIndexes(
-    favorites.artist,
-    $(this).attr("data-artist")
-  );
-  var indexesAlbum = getAllIndexes(
-    favorites.album,
-    $(this).attr("data-album")
-  );
-
+  var indexesArtist = getAllIndexes(favorites.artist,$(this).attr("data-artist"));
+  var indexesAlbum = getAllIndexes(favorites.album,$(this).attr("data-album"));
+  console.log(indexesTitle);
+  console.log(indexesArtist);
+  console.log(indexesAlbum);
   common = intersect_arrays(indexesTitle, indexesArtist);
   common = intersect_arrays(common, indexesAlbum);
 
