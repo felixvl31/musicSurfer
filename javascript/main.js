@@ -56,9 +56,9 @@ if (favorites === null) {
     album: [],
     artist: [],
     title: [],
-    additional: [],
     image: [],
-    video: []
+    video: [],
+    audio:[]
   };
 }
 
@@ -94,7 +94,7 @@ $("#search").on("click", function(event) {
       "&limit=10&media=music&musicVideo&limit=10",
     dataType: "json",
     success: function(response) {
-      //console.log(response);
+      console.log(response);
       //console.log(response.results.length);
 
       if (response.results.length === 0) {
@@ -111,15 +111,17 @@ $("#search").on("click", function(event) {
         var imageURL = response.results[i].artworkUrl100;
         var trackID = response.results[i].trackId;
         var videoID = response.results[i].trackTimeMillis;
-
+        var audio = response.results[i].previewUrl;
+        
         //if there is a return for a video url preview, saves it into the array
         if (response.results[i].kind == "music-video") {
           var videoURL = response.results[i].previewUrl;
           var album = "Video";
+          var audio = "";
         } else {
           var videoURL = "";
         }
-        renderMusic(title,artist,album,"Additional 3",imageURL,videoURL,false,true,videoID,trackID);
+        renderMusic(title,artist,album,audio,imageURL,videoURL,false,true,videoID,trackID);
       }
     }
   });
@@ -179,7 +181,7 @@ $(".container-fluid").on("click", ".videoBtn", function() {
 });
 
 //Factory function to display the results after search
-function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
+function renderMusic(title,artist,album,audio,coverURL,videoURL,deleteBtn,favoriteBtn,videoID,lyricsID,deleteID) {
   var musicDisplay = $("<div>");
   var imageDisplay = $("<div>");
   var infoDisplay = $("<div>");
@@ -188,7 +190,7 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
   var albumSpace = $("<p>");
   var titleSpace = $("<p>");
   var artistSpace = $("<p>");
-  var additionalSpace = $("<p>");
+  var audioSpace = $("<audio controls></audio>");
   var lyricsSpace = $("<p>");
   var favBtnSpace = $("<button>");
   var delBtnSpace = $("<button>");
@@ -207,7 +209,7 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
     .attr("src", coverURL)
     .attr("width", "120px");
   $(imageDisplay)
-    .addClass("col-3 imageDisplay col align-self-center")
+    .addClass("col-3 imageDisplay col align-self-center text-center")
     .append(imageSpace);
 
   $(infoDisplay).addClass("col-7 infoDisplay");
@@ -220,15 +222,20 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
   $(artistSpace)
     .text(artist)
     .addClass("row");
-  $(additionalSpace)
-    .text(additional)
-    .addClass("row");
+  if( audio !== ""){
+  $(audioSpace)
+    .attr("src",audio).addClass("audio");
+  }
 
   $(infoDisplay)
     .append(albumSpace)
     .append(artistSpace)
     .append(titleSpace)
-    .append(additionalSpace);
+  
+  if( audio !== ""){
+   $(infoDisplay).append(audioSpace);
+  }
+    
 
   $(btnDisplay).addClass("col-2 btnDisplay");
   $(favBtnSpace)
@@ -248,7 +255,7 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
       .attr("data-album", album)
       .attr("data-artist", artist)
       .attr("data-title", title)
-      .attr("data-add", additional)
+      .attr("data-audio", audio)
       .attr("data-img", coverURL)
       .attr("data-video", videoURL);
   }
@@ -262,7 +269,7 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
     .attr("data", lyricsID)
     .attr("id", "lyricsSpace" + lyricsID);
   $(contentLyrics)
-    .addClass("modal-content")
+    .addClass("modal-content text-center")
     .html(
       "<span class='close'data-btn=" +
         lyricsID +
@@ -284,7 +291,7 @@ function renderMusic(title,artist,album,additional,coverURL,videoURL,deleteBtn,f
       .attr("data-btn", videoID)
       .attr("data-video", videoURL);
     $(contentVideo)
-      .addClass("modal-content")
+      .addClass("modal-content text-center")
       .html(
         "<span class='close'data-btn=" +
           videoID +
@@ -348,16 +355,16 @@ $(document).on("click", ".favBtn", function() {
     favorites.album.push($(this).attr("data-album"));
     favorites.artist.push($(this).attr("data-artist"));
     favorites.title.push($(this).attr("data-title"));
-    favorites.additional.push($(this).attr("data-add"));
     favorites.image.push($(this).attr("data-img"));
     favorites.video.push($(this).attr("data-video"));
+    favorites.audio.push($(this).attr("data-audio"));
     localStorage.setItem("favorites", JSON.stringify(favorites));
 
     database.ref().push({
       album: $(this).attr("data-album"),
       artist: $(this).attr("data-artist"),
       title: $(this).attr("data-title"),
-      additional: $(this).attr("data-add"),
+      audio: $(this).attr("data-audio"),
       image: $(this).attr("data-img"),
       video: $(this).attr("data-video")
     });
@@ -373,7 +380,7 @@ function displayFavorites() {
   $(".infoContent").empty();
   event.preventDefault();
   for (i = 0; i < favorites.title.length; i++) {
-    renderMusic(favorites.title[i],favorites.artist[i],favorites.album[i],favorites.additional[i],
+    renderMusic(favorites.title[i],favorites.artist[i],favorites.album[i],favorites.audio[i],
     favorites.image[i],favorites.video[i],true,false,100 + i,200 + i,i);
   }
 }
@@ -384,7 +391,7 @@ $(document).on("click", ".delBtn", function() {
   favorites.album.splice(index, 1);
   favorites.title.splice(index, 1);
   favorites.artist.splice(index, 1);
-  favorites.additional.splice(index, 1);
+  favorites.audio.splice(index, 1);
   favorites.video.splice(index, 1);
   favorites.image.splice(index, 1);
   localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -403,10 +410,10 @@ $(".popular").on("click", function() {
       var title = child.val().title;
       var album = child.val().album;
       var artist = child.val().artist;
-      var additional = child.val().additional;
+      var audio = child.val().audio;
       var image = child.val().image;
       var video = child.val().video;
-      renderMusic(title,artist,album,additional,image, video,false,false,1000 + i,2000 + i);
+      renderMusic(title,artist,album,audio,image, video,false,false,1000 + i,2000 + i);
       i++;
     });
   });
