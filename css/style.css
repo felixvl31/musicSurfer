@@ -179,6 +179,7 @@ iframe {
   width:90%;
   text-align:left !important;
   height:30px;
+  text-shadow: none;
 }
 
 /* Icon trick */

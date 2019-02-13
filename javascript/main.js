@@ -269,7 +269,7 @@ function renderMusic(title,artist,album,audio,coverURL,videoURL,deleteBtn,favori
     .attr("data", lyricsID)
     .attr("id", "lyricsSpace" + lyricsID);
   $(contentLyrics)
-    .addClass("modal-content")
+    .addClass("modal-content text-center")
     .html(
       "<span class='close'data-btn=" +
         lyricsID +
@@ -291,7 +291,7 @@ function renderMusic(title,artist,album,audio,coverURL,videoURL,deleteBtn,favori
       .attr("data-btn", videoID)
       .attr("data-video", videoURL);
     $(contentVideo)
-      .addClass("modal-content")
+      .addClass("modal-content text-center")
       .html(
         "<span class='close'data-btn=" +
           videoID +
