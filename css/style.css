@@ -176,10 +176,24 @@ iframe {
 }
 .audio{
   left:0;
-  width:90%;
+  width:80%;
   text-align:left !important;
   height:30px;
   text-shadow: none;
+}
+audio{
+  -webkit-transition:all 0.5s linear;
+  -moz-transition:all 0.5s linear;
+  -o-transition:all 0.5s linear;
+  transition:all 0.5s linear;
+}
+audio:hover, audio:focus, audio:active{
+  -webkit-box-shadow: 15px 15px 20px rgba(0,0, 0, 0.4);
+  -moz-box-shadow: 15px 15px 20px rgba(0,0, 0, 0.4);
+  box-shadow: 15px 15px 20px rgba(0,0, 0, 0.4);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Icon trick */
@@ -274,6 +288,9 @@ iframe {
   iframe {
     height: 25vh;
   }
+    .audio{
+    width:100%;
+  }
 }
 @media only screen and (max-width: 500px){
   #navBar {
@@ -281,6 +298,10 @@ iframe {
   }
   p.row{
     margin-left: 1rem;
+  }
+  .audio{
+    margin-left: 1rem;
+    font-size: 8px;
   }
   #searchSpace:hover, #favoritesNav:hover, #recentSearch:hover{
     font-size: 16.5px;
@@ -307,9 +328,9 @@ iframe {
     margin:0px auto;
   }
 }
-@media only screen and (max-width: 430px){
+@media only screen and (max-width: 450px){
   img {
-    width: 95%;
+    width: 90%;
     height: auto;
   }
   .infoDisplay {
