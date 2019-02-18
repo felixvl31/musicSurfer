@@ -14,5 +14,5 @@ It queries data using a singular search term, then parses and combines that data
 * [musixmatch API](https://developer.musixmatch.com/) 
 ***
 ## Give it a try
-* [Click Here](https://felixvl31.github.io/Project1-Group3/index.html)    
+* [Click Here](https://felixvl31.github.io/musicSurfer/)    
 ***
